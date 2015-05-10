@@ -68,10 +68,7 @@ sAlert = {
         html: false,
         showClose: true,
         router: true,
-        offset: {
-            top: 0,
-            bottom: 0
-        },
+        offset: 0,
         onClick: {}
     },
     
@@ -82,7 +79,12 @@ sAlert = {
             self.settings = _.extend( self.settings, configObj );
             
             if (self.settings.offset){
-                $('.s-alert').css( self.settings.offset );
+                if (/top/g.test( self.settings.position )){
+                    $('.s-alert').css( 'top', self.settings.offset );
+                    
+                } else if (/bottom/g.test( self.settings.position )){
+                    $('.s-alert').css( 'bottom', self.settings.offset );
+                }
             }
             
         } else {
