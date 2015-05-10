@@ -111,7 +111,7 @@ sAlert = {
     },
     
     // Alert callbacks
-    callbacks: []
+    callbacks: {}
 };
 
 // routers clean
