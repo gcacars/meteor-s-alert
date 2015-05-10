@@ -12,25 +12,29 @@ Template.sAlert.helpers({
         var sAlertBox;
         var docElement;
         var sAlertBoxHeight;
+        
         return sAlert.collection.find().map(function (alert) {
             // checking alert box height - needed to calculate position
             docElement = document.createElement('div');
             $(docElement).addClass('s-alert-box-height');
+            
             sAlertBoxHTML = Blaze.toHTMLWithData(Template.sAlertContent, alert);
             sAlertBox = $(docElement).html(sAlertBoxHTML);
             $('body').append(sAlertBox);
+            
             sAlertBoxHeight = sAlertBox.find('.s-alert-box').outerHeight(true);
-
             alertPosition = alert.position;
+            
             if (alertPosition && /top/g.test(alertPosition)) {
-                padding = getComputedStyle(sAlertBox.find('.s-alert-box')[0], null).getPropertyValue('top');
-                positionTop = positionTop + parseInt(padding);
+                padding = getComputedStyle( sAlertBox.find('.s-alert-box')[0], null ).getPropertyValue('top');
+                positionTop = positionTop + parseInt(padding) + alert.offset.top;
                 style = 'top: ' + positionTop + 'px;';
                 positionTop = positionTop + sAlertBoxHeight;
             }
+            
             if (alertPosition && /bottom/g.test(alertPosition)) {
                 padding = getComputedStyle(sAlertBox.find('.s-alert-box')[0], null).getPropertyValue('bottom');
-                positionBottom = positionBottom + parseInt(padding);
+                positionBottom = positionBottom + parseInt(padding) + alert.offset.bottom;
                 style = 'bottom: ' + positionBottom + 'px;';
                 positionBottom = positionBottom + sAlertBoxHeight;
             }
@@ -48,27 +52,34 @@ Template.sAlertContent.onRendered(function () {
     var tmpl = this;
     var data = Template.currentData();
     var sAlertTimeout = data.timeout;
+    
     if (sAlertTimeout && sAlertTimeout !== 'no' && sAlertTimeout !== 'none') {
-        sAlertTimeout = parseInt(sAlertTimeout);
+        sAlertTimeout = parseInt( sAlertTimeout );
+        
         if (tmpl.sAlertCloseTimeout) {
-            Meteor.clearTimeout(tmpl.sAlertCloseTimeout);
+            Meteor.clearTimeout( tmpl.sAlertCloseTimeout );
         }
+        
         tmpl.sAlertCloseTimeout = Meteor.setTimeout(function () {
-            sAlert.close(data._id);
+            sAlert.close( data._id );
         }, sAlertTimeout);
     }
 });
+
 Template.sAlertContent.onDestroyed(function () {
     if (this.sAlertCloseTimeout) {
-        Meteor.clearTimeout(this.sAlertCloseTimeout);
+        Meteor.clearTimeout( this.sAlertCloseTimeout );
     }
 });
 
 Template.sAlertContent.events({
     'click .s-alert-close': function (e, tmpl) {
         e.preventDefault();
-        Meteor.clearTimeout(tmpl.sAlertCloseTimeout);
-        sAlert.close(this._id);
+        Meteor.clearTimeout( tmpl.sAlertCloseTimeout );
+        
+        // Callback
+        var next = sAlert.callbacks[ this._id ] ? sAlert.callbacks[ 'call_' + this._id ].onClick( this ) : true;
+        if (next || next === undefined) sAlert.close( this._id );
     }
 });
 
