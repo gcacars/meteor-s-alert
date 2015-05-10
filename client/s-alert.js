@@ -80,10 +80,10 @@ sAlert = {
             
             if (self.settings.offset){
                 if (/top/g.test( self.settings.position )){
-                    $('.s-alert').css( 'top', self.settings.offset );
+                    $('.s-alert').css( 'top', self.settings.offset + 30 );
                     
                 } else if (/bottom/g.test( self.settings.position )){
-                    $('.s-alert').css( 'bottom', self.settings.offset );
+                    $('.s-alert').css( 'bottom', self.settings.offset + 30 );
                 }
             }
             
