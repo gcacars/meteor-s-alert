@@ -81,6 +81,10 @@ sAlert = {
         if (_.isObject( configObj )) {
             self.settings = _.extend( self.settings, configObj );
             
+            if (self.settings.offset){
+                $('.s-alert').css( self.settings.offset );
+            }
+            
         } else {
             throw new Meteor.Error(400, 'sAlert: Config must be an object!');
         }
