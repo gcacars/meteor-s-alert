@@ -12,7 +12,9 @@
             <div class="s-alert-box-inner">
                 <p>{{#if isHtml}}{{{message}}}{{else}}{{message}}{{/if}}</p>
             </div>
-            <span class="s-alert-close"></span>
+            {{#if close}}
+                <span class="s-alert-close"></span>
+            {{/if}}
         </div>
     {{/if}}
 </template>
