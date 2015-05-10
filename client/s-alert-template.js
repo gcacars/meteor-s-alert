@@ -27,14 +27,14 @@ Template.sAlert.helpers({
             
             if (alertPosition && /top/g.test(alertPosition)) {
                 padding = getComputedStyle( sAlertBox.find('.s-alert-box')[0], null ).getPropertyValue('top');
-                positionTop = positionTop + parseInt(padding) + alert.offset.top;
+                positionTop = positionTop + parseInt(padding);
                 style = 'top: ' + positionTop + 'px;';
                 positionTop = positionTop + sAlertBoxHeight;
             }
             
             if (alertPosition && /bottom/g.test(alertPosition)) {
                 padding = getComputedStyle(sAlertBox.find('.s-alert-box')[0], null).getPropertyValue('bottom');
-                positionBottom = positionBottom + parseInt(padding) + alert.offset.bottom;
+                positionBottom = positionBottom + parseInt(padding);
                 style = 'bottom: ' + positionBottom + 'px;';
                 positionBottom = positionBottom + sAlertBoxHeight;
             }
