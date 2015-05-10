@@ -1,7 +1,13 @@
 /* Common, default styles for the notification box */
 
-.s-alert-box {
+.s-alert {
 	position: fixed;
+	z-index: 1000;
+	pointer-events: none;
+}
+
+.s-alert-box {
+	position: absolute;
 	background: rgba(42,45,50,0.85);
 	padding: 22px;
 	line-height: 1.4;
